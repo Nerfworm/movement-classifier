@@ -172,3 +172,10 @@ cython_debug/
 
 # PyPI configuration file
 .pypirc
+
+# Ignore for movement-classifier
+.vscode/
+data/raw/
+data/processed/
+data/logs/
+data/models/
