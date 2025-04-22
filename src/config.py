@@ -67,7 +67,38 @@ CONNECTED_DEVICES = {
     }
 }
 
-LABELS = ["idle", "walking", "raised right arm"]
+RAW_TRACKING_FIELDS = [
+    'timestamp',
+    'pose_is_valid',
+    'device_connected',
+
+    # Position (meters)
+    'position_x',
+    'position_y',
+    'position_z',
+
+    # Orientation matrix (basis vectors)
+    'orientation_right_x',
+    'orientation_right_y',
+    'orientation_right_z',
+
+    'orientation_up_x',
+    'orientation_up_y',
+    'orientation_up_z',
+
+    'orientation_forward_x',
+    'orientation_forward_y',
+    'orientation_forward_z',
+
+    # Velocities
+    'linear_vel_x',
+    'linear_vel_y',
+    'linear_vel_z',
+
+    'angular_vel_x',
+    'angular_vel_y',
+    'angular_vel_z',
+]
 
 DATA_DIRECTORIES = {
     'logs': './data/logs/',
