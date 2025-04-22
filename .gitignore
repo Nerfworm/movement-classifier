@@ -175,7 +175,7 @@ cython_debug/
 
 # Ignore for movement-classifier
 .vscode/
-data/raw/
-data/processed/
-data/logs/
-data/models/
+data/raw/*
+data/processed/*
+data/logs/*
+data/models/*
