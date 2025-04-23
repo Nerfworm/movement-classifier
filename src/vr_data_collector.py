@@ -1,12 +1,14 @@
+from data_saver import DataSaver
 import openvr
 import time
 import numpy as np
 
 class VRDataCollector:
-    def __init__(self,connected_devices: dict, collection_time_interval: float = 0.01):
+    def __init__(self, connected_devices: dict, data_saver: DataSaver, collection_time_interval: float = 0.01):
         self.connected_devices = connected_devices
         self.collection_time_interval = collection_time_interval
         self.vr_data = openvr.init(openvr.VRApplication_Other)
+        self.data_saver = data_saver
 
     def collect_data_once(self):
         timestamp = time.time()
@@ -16,17 +18,16 @@ class VRDataCollector:
         for device, meta in self.connected_devices.items():
             index = meta['index']
             pose = poses[index]
-            matrix = self.get_pose_matrix(pose)
+            matrix = self._get_pose_matrix(pose)
 
             raw_tracking_data [device] = {
                 'timestamp': timestamp,
                 'pose_is_valid': pose.bPoseIsValid,
                 'device_connected': pose.bDeviceIsConnected,
                 
-                # Position (meters)
-                'position_x': matrix[0][3],
-                'position_y': matrix[1][3],
-                'position_z': matrix[2][3],
+                'position_x (m)': matrix[0][3],
+                'position_y (m)': matrix[1][3],
+                'position_z (m)': matrix[2][3],
 
                 # Orientation matrix (rotation basis vectors)
                 'orientation_right_x': matrix[0][0],
@@ -41,17 +42,16 @@ class VRDataCollector:
                 'orientation_forward_y': matrix[1][2],
                 'orientation_forward_z': matrix[2][2],
 
-                'linear_vel_x': pose.vVelocity.v[0],
-                'linear_vel_y': pose.vVelocity.v[1],
-                'linear_vel_z': pose.vVelocity.v[2],
+                'linear_vel_x (m/s)': pose.vVelocity.v[0],
+                'linear_vel_y (m/s)': pose.vVelocity.v[1],
+                'linear_vel_z (m/s)': pose.vVelocity.v[2],
 
-                'angular_vel_x': pose.vAngularVelocity.v[0],
-                'angular_vel_y': pose.vAngularVelocity.v[1],
-                'angular_vel_z': pose.vAngularVelocity.v[2],
+                'angular_vel_x (rad/s)': pose.vAngularVelocity.v[0],
+                'angular_vel_y (rad/s)': pose.vAngularVelocity.v[1],
+                'angular_vel_z (rad/s)': pose.vAngularVelocity.v[2],
             }
-            print(f"\n\nraw_tracking_data") # debug
         
-        # implement data saver object save here
+        self.data_saver.save_raw_data(raw_tracking_data)
         
     
     def run(self, duration: float = 0):
@@ -59,8 +59,7 @@ class VRDataCollector:
         start_time = time.time()
 
         while self.running:
-            # self.collect_data_once()
-            print(f"Time: {time.time()}")
+            self.collect_data_once()
             if duration and (time.time() - start_time) >= duration:
                 break
             time.sleep(self.collection_time_interval)
