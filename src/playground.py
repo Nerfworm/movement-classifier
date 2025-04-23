@@ -1,30 +1,37 @@
-import openvr
-from config import CONNECTED_DEVICES
-import time
 
-vr_data = openvr.init(openvr.VRApplication_Other)
+from config import DATA_DIRECTORIES
+import datetime
+import csv
+import os
 
-poses = openvr.VRSystem().getDeviceToAbsoluteTrackingPose(
-    openvr.TrackingUniverseStanding, 0, openvr.k_unMaxTrackedDeviceCount
-)
+directory_name = f'test_{datetime.datetime.now().strftime('%Y-%m-%d_%H-%M-%S')}'
+directory_path = DATA_DIRECTORIES['raw'] + directory_name
+file_name = 'test.csv'
+file_path = f'{directory_path}/{file_name}'
+print(f'PATH: {directory_path}/{file_name}')
 
-def get_device_xyz(device_index):
-    pose = poses[device_index]
-    pose_matrix = pose.mDeviceToAbsoluteTracking
-    x = pose_matrix[0][3]
-    y = pose_matrix[1][3]
-    z = pose_matrix[2][3]
-    return x, y, z
+def make_directory(path):
+    try:
+        os.mkdir(path)
+        print(f"Directory '{path}' created successfully.")
+    except FileExistsError:
+        print(f"Directory '{path}' already exists.")
+    except PermissionError:
+        print(f"Permission denied: Unable to create '{path}'.")
+    except Exception as e:
+        print(f"An error occurred: {e}")
 
-for i in CONNECTED_DEVICES:
-    print(f'\nDevice:\n{i}')
-    print(f'Position(x,y,z): {get_device_xyz(CONNECTED_DEVICES[i]['index'])}')
+# make_directory(directory_path)
 
-# print(f"Position: x={x:.4f}, y={y:.4f}, z={z:.4f}")
+def make_csv(path):
+    with open(path, 'w', newline='') as csvfile:
+        fieldnames = ['first_name', 'last_name']
+        writer = csv.DictWriter(csvfile, fieldnames=fieldnames)
 
-# time.sleep(0.51)
+        writer.writeheader()
 
+# make_csv(file_path)
 
-
-import numpy as np
-from scipy.spatial.transform import Rotation as R
+        # writer.writerow({'first_name': 'Baked', 'last_name': 'Beans'})
+        # writer.writerow({'first_name': 'Lovely', 'last_name': 'Spam'})
+        # writer.writerow({'first_name': 'Wonderful', 'last_name': 'Spam'})
