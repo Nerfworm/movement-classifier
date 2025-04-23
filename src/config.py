@@ -73,11 +73,11 @@ RAW_TRACKING_FIELDS = [
     'device_connected',
 
     # Position (meters)
-    'position_x',
-    'position_y',
-    'position_z',
+    'position_x (m)',
+    'position_y (m)',
+    'position_z (m)',
 
-    # Orientation matrix (basis vectors)
+    # Orientation matrix (unitless?)
     'orientation_right_x',
     'orientation_right_y',
     'orientation_right_z',
@@ -90,14 +90,15 @@ RAW_TRACKING_FIELDS = [
     'orientation_forward_y',
     'orientation_forward_z',
 
-    # Velocities
-    'linear_vel_x',
-    'linear_vel_y',
-    'linear_vel_z',
+    # Linear velocity (m/s)
+    'linear_vel_x (m/s)',
+    'linear_vel_y (m/s)',
+    'linear_vel_z (m/s)',
 
-    'angular_vel_x',
-    'angular_vel_y',
-    'angular_vel_z',
+    # Angular velocity (rad/s)
+    'angular_vel_x (rad/s)',
+    'angular_vel_y (rad/s)',
+    'angular_vel_z (rad/s)',
 ]
 
 DATA_DIRECTORIES = {
