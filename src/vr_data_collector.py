@@ -25,11 +25,10 @@ class VRDataCollector:
                 'pose_is_valid': pose.bPoseIsValid,
                 'device_connected': pose.bDeviceIsConnected,
                 
-                'position_x (m)': matrix[0][3],
-                'position_y (m)': matrix[1][3],
-                'position_z (m)': matrix[2][3],
+                'position_x': matrix[0][3],
+                'position_y': matrix[1][3],
+                'position_z': matrix[2][3],
 
-                # Orientation matrix (rotation basis vectors)
                 'orientation_right_x': matrix[0][0],
                 'orientation_right_y': matrix[1][0],
                 'orientation_right_z': matrix[2][0],
@@ -42,13 +41,13 @@ class VRDataCollector:
                 'orientation_forward_y': matrix[1][2],
                 'orientation_forward_z': matrix[2][2],
 
-                'linear_vel_x (m/s)': pose.vVelocity.v[0],
-                'linear_vel_y (m/s)': pose.vVelocity.v[1],
-                'linear_vel_z (m/s)': pose.vVelocity.v[2],
+                'linear_vel_x': pose.vVelocity.v[0],
+                'linear_vel_y': pose.vVelocity.v[1],
+                'linear_vel_z': pose.vVelocity.v[2],
 
-                'angular_vel_x (rad/s)': pose.vAngularVelocity.v[0],
-                'angular_vel_y (rad/s)': pose.vAngularVelocity.v[1],
-                'angular_vel_z (rad/s)': pose.vAngularVelocity.v[2],
+                'angular_vel_x': pose.vAngularVelocity.v[0],
+                'angular_vel_y': pose.vAngularVelocity.v[1],
+                'angular_vel_z': pose.vAngularVelocity.v[2],
             }
         
         self.data_saver.save_raw_data(raw_tracking_data)
